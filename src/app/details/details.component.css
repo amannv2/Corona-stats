@@ -1,0 +1,30 @@
+.global-stats {
+  border: solid gold 2px;
+  border-left: transparent;
+  background-color: rgba(255, 215, 0, 0.1);
+  height: 700px;
+}
+
+.map {
+  height: 700px;
+  /* border: 2px solid black;
+  border-right: transparent; */
+  background-color: #e6f7ff;
+}
+
+.global-counter {
+  width: 100%;
+  text-align: center;
+}
+
+.gc-head {
+  margin-bottom: -2px;
+}
+
+.last-updated {
+  color: silver;
+}
+
+.global-info {
+  font-size: 125%;
+}

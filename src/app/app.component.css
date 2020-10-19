@@ -1,0 +1,16 @@
+.main-title {
+  text-align: center;
+  font-size: 50px;
+  font-weight: 100;
+  font-family: "Allerta";
+  height: 110px;
+  /* margin-bottom: 30px; */
+  background-color: #e6f7ff;
+  /* border: solid brown 2px; */
+}
+
+footer {
+  width: 100%;
+  height: 170px;
+  background-color: #e6f7ff;
+}
