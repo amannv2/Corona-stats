@@ -5,11 +5,10 @@
       <span class="last-updated">Last updated on: {{ time }}</span>
       <br />
       <br />
-      <br />
     </div>
     <div>
       <div class="global-new">
-        <div class="alert alert-info global-info">
+        <div class="alert alert-warning global-info">
           <strong>New confirmed cases: </strong> {{ globalNewConfirmed }}
         </div>
         <div class="alert alert-danger global-info">
@@ -20,8 +19,14 @@
         </div>
       </div>
 
-      <div class="global-total">
+      <div class="global-new">
         <div class="alert alert-info global-info">
+          <strong>Total active cases: </strong> {{ globalActive }}
+        </div>
+      </div>
+
+      <div class="global-total">
+        <div class="alert alert-warning global-info">
           <strong>Total confirmed cases: </strong> {{ globalTotalConfirmed }}
         </div>
         <div class="alert alert-danger global-info">
@@ -31,9 +36,38 @@
           <strong>Total recovered cases: </strong> {{ globalTotalRecovered }}
         </div>
       </div>
+      <hr />
+      <div class="country-stats" *ngIf="clicked">
+        <h3 class="gc-head">Stats for {{ country }}</h3>
+        <br />
+        <div class="alert alert-warning country-info">
+          <strong>New confirmed cases: </strong> {{ countryNewConfirmed }}
+        </div>
+        <div class="alert alert-danger country-info">
+          <strong>New deaths: </strong> {{ countryNewDeath }}
+        </div>
+        <div class="alert alert-success country-info">
+          <strong>New recovered cases: </strong> {{ countryNewRecovered }}
+        </div>
+        <div
+          class="alert alert-info"
+          style="margin-bottom: 0px; border-radius: 0px; text-align: center"
+        >
+          <strong>Total active cases: </strong> {{ countryActive }}
+        </div>
+        <div class="alert alert-warning country-info">
+          <strong>Total confirmed cases: </strong> {{ countryTotalConfirmed }}
+        </div>
+        <div class="alert alert-danger country-info">
+          <strong>Total deaths: </strong> {{ countryTotalDeath }}
+        </div>
+        <div class="alert alert-success country-info">
+          <strong>Total recovered cases: </strong> {{ countryTotalRecovered }}
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-md-9 map">
-    <div id="chartdiv" style="width: 100%; height: 700px"></div>
+    <div id="chartdiv" style="width: 100%; height: 800px"></div>
   </div>
 </div>

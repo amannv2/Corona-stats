@@ -2,14 +2,14 @@
   border: solid gold 2px;
   border-left: transparent;
   background-color: rgba(255, 215, 0, 0.1);
-  height: 700px;
+  height: 100%;
 }
 
 .map {
-  height: 700px;
+  height: 800px;
   /* border: 2px solid black;
   border-right: transparent; */
-  background-color: #e6f7ff;
+  /* background-color: #212327; */
 }
 
 .global-counter {
@@ -19,6 +19,8 @@
 
 .gc-head {
   margin-bottom: -2px;
+  color: aliceblue;
+  text-align: center;
 }
 
 .last-updated {
@@ -26,5 +28,19 @@
 }
 
 .global-info {
-  font-size: 125%;
+  font-size: 115%;
+  margin-bottom: 10px;
+}
+
+.country-stats {
+  margin-top: -10px;
+  /* font-size: 10px; */
+}
+
+.country-info {
+  height: 100%;
+  min-height: 75px;
+  width: 33.33%;
+  border-radius: 0px;
+  float: left;
 }
