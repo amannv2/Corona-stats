@@ -31,6 +31,7 @@ export class DetailsComponent implements AfterViewInit, OnInit {
   country: string;
   clicked = false;
   activeFilter = 'death';
+  loading = true;
 
   globalCases: Cases = new Cases('0', '0', '0', '0', '0', '0', '0');
   countryCases: Cases = new Cases('0', '0', '0', '0', '0', '0', '0');
@@ -237,6 +238,7 @@ export class DetailsComponent implements AfterViewInit, OnInit {
         this.countries = this.data.Countries;
         this.setGlobalData();
         this.getTopThreeByTotalDeaths();
+        this.loading = false;
       });
   }
 

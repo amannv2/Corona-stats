@@ -18,13 +18,14 @@
 }
 
 .gc-head {
-  /* margin-bottom: -2px; */
   color: aliceblue;
   text-align: center;
+  font-family: "Open Sans", sans-serif;
 }
 
 .last-updated {
   color: silver;
+  font-family: "Open Sans", sans-serif;
 }
 
 .global-info {
@@ -129,14 +130,87 @@
 
 .close-btn {
   float: right;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.03);
   color: rgba(243, 65, 65, 0.226);
-  z-index: 11111;
   outline: none;
   border: none;
+  font-family: "Open Sans", sans-serif;
 }
 
 .close-btn:hover {
   background-color: rgba(255, 255, 255, 1);
   color: rgba(243, 65, 65, 1);
+}
+
+.loading {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 5;
+  backdrop-filter: saturate(130%) blur(3px);
+  -webkit-backdrop-filter: saturate(130%) blur(3px);
+}
+
+.loading-span {
+  display: flex;
+  justify-content: center;
+  margin-top: 23%;
+}
+
+/*
+
+
+
+*/
+.loader {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+  background-color: #fff;
+  background: radial-gradient(
+    ellipse at center,
+    #ff3d00 0%,
+    #ff3d00 14%,
+    #fff 15%,
+    #fff 100%
+  );
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+.loader::after,
+.loader::before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 4px;
+  background: #ff3d00;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  transform-origin: 25% 0;
+  box-sizing: border-box;
+  animation: rotation 10s linear infinite;
+}
+.loader::before {
+  height: 22px;
+  width: 2px;
+  transform: translateX(-50%) rotate(0deg);
+  animation-duration: 1s;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
