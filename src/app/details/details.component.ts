@@ -15,6 +15,7 @@ import am4geodata_worldLow from '@amcharts/amcharts4-geodata/worldLow';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import { AfterViewInit } from '@angular/core';
 import { RequestService } from '../request.service';
+import { Cases } from './cases.model';
 
 @Component({
   selector: 'app-details',
@@ -24,22 +25,11 @@ import { RequestService } from '../request.service';
 export class DetailsComponent implements AfterViewInit, OnInit {
   data: any;
   time: string;
-  globalTotalDeath: any;
-  globalTotalRecovered: any;
-  globalTotalConfirmed: any;
-  globalNewDeath: any;
-  globalNewRecovered: any;
-  globalNewConfirmed: any;
-  globalActive: any;
   country: string;
-  countryTotalDeath: string;
-  countryTotalRecovered: string;
-  countryTotalConfirmed: string;
-  countryActive: string;
-  countryNewDeath: string;
-  countryNewRecovered: string;
-  countryNewConfirmed: string;
   clicked = false;
+
+  globalCases: Cases = new Cases('0', '0', '0', '0', '0', '0', '0');
+  countryCases: Cases = new Cases('0', '0', '0', '0', '0', '0', '0');
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
@@ -62,22 +52,26 @@ export class DetailsComponent implements AfterViewInit, OnInit {
       .sendRequest('https://api.covid19api.com/summary')
       .subscribe((data: any) => {
         this.data = data;
-        this.globalTotalDeath = this.formatNumber(this.data.Global.TotalDeaths);
-        this.globalTotalRecovered = this.formatNumber(
+        this.globalCases.totalDeath = this.formatNumber(
+          this.data.Global.TotalDeaths
+        );
+        this.globalCases.totalRecovered = this.formatNumber(
           this.data.Global.TotalRecovered
         );
-        this.globalTotalConfirmed = this.formatNumber(
+        this.globalCases.totalConfirmed = this.formatNumber(
           this.data.Global.TotalConfirmed
         );
-        this.globalNewDeath = this.formatNumber(this.data.Global.NewDeaths);
-        this.globalNewRecovered = this.formatNumber(
+        this.globalCases.newDeath = this.formatNumber(
+          this.data.Global.NewDeaths
+        );
+        this.globalCases.newRecovered = this.formatNumber(
           this.data.Global.NewRecovered
         );
-        this.globalNewConfirmed = this.formatNumber(
+        this.globalCases.newConfirmed = this.formatNumber(
           this.data.Global.NewConfirmed
         );
         this.time = this.data.Date;
-        this.globalActive = this.formatNumber(
+        this.globalCases.active = this.formatNumber(
           (
             this.data.Global.TotalConfirmed -
             this.data.Global.TotalRecovered -
@@ -176,17 +170,23 @@ export class DetailsComponent implements AfterViewInit, OnInit {
         this.data.Countries.forEach((element) => {
           if (element.Country.includes(this.country)) {
             this.clicked = true;
-            this.countryNewConfirmed = this.formatNumber(element.NewConfirmed);
-            this.countryNewDeath = this.formatNumber(element.NewDeaths);
-            this.countryNewRecovered = this.formatNumber(element.NewRecovered);
-            this.countryTotalConfirmed = this.formatNumber(
+            this.countryCases.newConfirmed = this.formatNumber(
+              element.NewConfirmed
+            );
+            this.countryCases.newDeath = this.formatNumber(element.NewDeaths);
+            this.countryCases.newRecovered = this.formatNumber(
+              element.NewRecovered
+            );
+            this.countryCases.totalConfirmed = this.formatNumber(
               element.TotalConfirmed
             );
-            this.countryTotalDeath = this.formatNumber(element.TotalDeaths);
-            this.countryTotalRecovered = this.formatNumber(
+            this.countryCases.totalDeath = this.formatNumber(
+              element.TotalDeaths
+            );
+            this.countryCases.totalRecovered = this.formatNumber(
               element.TotalRecovered
             );
-            this.countryActive = this.formatNumber(
+            this.countryCases.active = this.formatNumber(
               (
                 element.TotalConfirmed -
                 element.TotalDeaths -
@@ -203,8 +203,10 @@ export class DetailsComponent implements AfterViewInit, OnInit {
 
       const homeButton = new am4core.Button();
       homeButton.events.on('hit', () => {
-        worldSeries.show();
+        this.clicked = false;
+        this.appRef.tick();
         chart.goHome();
+        // worldSeries.show();
       });
       homeButton.icon = new am4core.Sprite();
       homeButton.padding(7, 5, 7, 5);
