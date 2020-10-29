@@ -27,49 +27,148 @@
         </div>
       </div>
 
-      <div class="global-total">
-        <div class="alert alert-warning global-info">
-          <strong>Total confirmed cases: </strong>
-          {{ globalCases.totalConfirmed }}
-        </div>
-        <div class="alert alert-danger global-info">
-          <strong>Total deaths: </strong> {{ globalCases.totalDeath }}
-        </div>
-        <div class="alert alert-success global-info">
-          <strong>Total recovered cases: </strong>
-          {{ globalCases.totalRecovered }}
-        </div>
+      <div class="alert alert-success global-info">
+        <strong>Total recovered cases: </strong>
+        {{ globalCases.totalRecovered }}
       </div>
-      <hr *ngIf="clicked" />
+      <div class="alert alert-danger global-info">
+        <strong>Total deaths: </strong> {{ globalCases.totalDeath }}
+      </div>
+    </div>
+    <div class="global-total">
+      <div class="alert alert-warning global-info">
+        <strong>Total confirmed cases: </strong>
+        {{ globalCases.totalConfirmed }}
+      </div>
+
+      <hr />
+
+      <!-- different stats -->
+      <div *ngIf="!clicked">
+        <h3 class="gc-head">Top 3 Countries by</h3>
+
+        <div class="button-group">
+          <button
+            type="button"
+            id="death"
+            class="btn btn-light"
+            (click)="changeFilter('death')"
+            [ngStyle]="{ borderColor: getColor('death'), borderStyle: 'solid' }"
+          >
+            Deaths
+          </button>
+          <button
+            type="button"
+            id="total"
+            class="btn btn-light"
+            (click)="changeFilter('total')"
+            [ngStyle]="{ borderColor: getColor('total'), borderStyle: 'solid' }"
+          >
+            Total Cases
+          </button>
+          <button
+            type="button"
+            id="active"
+            class="btn btn-light"
+            (click)="changeFilter('active')"
+            [ngStyle]="{
+              borderColor: getColor('active'),
+              borderStyle: 'solid'
+            }"
+          >
+            Active Cases
+          </button>
+          <button
+            type="button"
+            id="recovery"
+            class="btn btn-light"
+            (click)="changeFilter('recovery')"
+            [ngStyle]="{
+              borderColor: getColor('recovery'),
+              borderStyle: 'solid'
+            }"
+          >
+            Recoveries
+          </button>
+        </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th scope="row" class="country-1 all-country-name">
+                {{ topThreeCountries.first }}
+              </th>
+              <th class="country-1 all-country-count">
+                {{ topThreeCountries.firstCases }}
+              </th>
+            </tr>
+            <tr>
+              <th scope="row" class="country-2 all-country-name">
+                {{ topThreeCountries.second }}
+              </th>
+              <th class="country-2 all-country-count">
+                {{ topThreeCountries.secondCases }}
+              </th>
+            </tr>
+            <tr>
+              <th scope="row" class="country-3 all-country-name">
+                {{ topThreeCountries.third }}
+              </th>
+              <th class="country-3 all-country-count">
+                {{ topThreeCountries.thirdCases }}
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- country stats -->
       <div class="country-stats" *ngIf="clicked">
-        <h3 class="gc-head">Stats for {{ country }}</h3>
-        <br />
-        <div class="alert alert-warning country-info">
-          <strong>New confirmed cases: </strong> {{ countryCases.newConfirmed }}
-        </div>
-        <div class="alert alert-danger country-info">
-          <strong>New deaths: </strong> {{ countryCases.newDeath }}
-        </div>
-        <div class="alert alert-success country-info">
-          <strong>New recovered cases: </strong> {{ countryCases.newRecovered }}
-        </div>
-        <div
-          class="alert alert-info"
-          style="margin-bottom: 0px; border-radius: 0px; text-align: center"
-        >
-          <strong>Total active cases: </strong> {{ countryCases.active }}
-        </div>
-        <div class="alert alert-warning country-info">
-          <strong>Total confirmed cases: </strong>
-          {{ countryCases.totalConfirmed }}
-        </div>
-        <div class="alert alert-danger country-info">
-          <strong>Total deaths: </strong> {{ countryCases.totalDeath }}
-        </div>
-        <div class="alert alert-success country-info">
-          <strong>Total recovered cases: </strong>
-          {{ countryCases.totalRecovered }}
-        </div>
+        <h3 class="gc-head">
+          Stats for {{ country }}
+          <button class="btn btn-light close-btn" (click)="hideCountryStatus()">
+            X
+          </button>
+        </h3>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="no-border alert-warning">
+                <strong>New confirmed cases: </strong>
+                {{ countryCases.newConfirmed }}
+              </td>
+              <td class="no-border alert-danger">
+                <strong>New deaths: </strong> {{ countryCases.newDeath }}
+              </td>
+              <td class="no-border alert-success">
+                <strong>New recovered cases: </strong>
+                {{ countryCases.newRecovered }}
+              </td>
+            </tr>
+            <tr>
+              <th
+                scope="row"
+                colspan="3"
+                class="no-border alert-info"
+                style="text-align: center; font-size: 125%"
+              >
+                <strong>Total active cases: </strong> {{ countryCases.active }}
+              </th>
+            </tr>
+            <tr>
+              <td class="no-border alert-warning">
+                <strong>Total confirmed cases: </strong>
+                {{ countryCases.totalConfirmed }}
+              </td>
+              <td class="no-border alert-danger">
+                <strong>Total deaths: </strong> {{ countryCases.totalDeath }}
+              </td>
+              <td class="no-border alert-success">
+                <strong>Total recovered cases: </strong>
+                {{ countryCases.totalRecovered }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

@@ -1,21 +1,23 @@
+// amCharts imports
+import am4geodata_worldLow from '@amcharts/amcharts4-geodata/worldLow';
+import * as am4core from '@amcharts/amcharts4/core';
+import * as am4maps from '@amcharts/amcharts4/maps';
+import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
+  ApplicationRef,
   Component,
   Inject,
   NgZone,
-  PLATFORM_ID,
   OnInit,
-  ApplicationRef,
+  PLATFORM_ID,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 
-// amCharts imports
-import * as am4core from '@amcharts/amcharts4/core';
-import * as am4maps from '@amcharts/amcharts4/maps';
-import am4geodata_worldLow from '@amcharts/amcharts4-geodata/worldLow';
-import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-import { AfterViewInit } from '@angular/core';
-import { RequestService } from '../request.service';
+// other imports
 import { Cases } from './cases.model';
+import { TopCountries } from './topCountries.model';
+import { RequestService } from '../request.service';
 
 @Component({
   selector: 'app-details',
@@ -24,12 +26,15 @@ import { Cases } from './cases.model';
 })
 export class DetailsComponent implements AfterViewInit, OnInit {
   data: any;
+  countries: any = [];
   time: string;
   country: string;
   clicked = false;
+  activeFilter = 'death';
 
   globalCases: Cases = new Cases('0', '0', '0', '0', '0', '0', '0');
   countryCases: Cases = new Cases('0', '0', '0', '0', '0', '0', '0');
+  topThreeCountries: TopCountries = new TopCountries('', '', '', '0', '0', '0');
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
@@ -47,40 +52,145 @@ export class DetailsComponent implements AfterViewInit, OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.requestSerice
-      .sendRequest('https://api.covid19api.com/summary')
-      .subscribe((data: any) => {
-        this.data = data;
-        this.globalCases.totalDeath = this.formatNumber(
-          this.data.Global.TotalDeaths
-        );
-        this.globalCases.totalRecovered = this.formatNumber(
-          this.data.Global.TotalRecovered
-        );
-        this.globalCases.totalConfirmed = this.formatNumber(
-          this.data.Global.TotalConfirmed
-        );
-        this.globalCases.newDeath = this.formatNumber(
-          this.data.Global.NewDeaths
-        );
-        this.globalCases.newRecovered = this.formatNumber(
-          this.data.Global.NewRecovered
-        );
-        this.globalCases.newConfirmed = this.formatNumber(
-          this.data.Global.NewConfirmed
-        );
-        this.time = this.data.Date;
-        this.globalCases.active = this.formatNumber(
-          (
-            this.data.Global.TotalConfirmed -
-            this.data.Global.TotalRecovered -
-            this.data.Global.TotalDeaths
-          ).toString()
-        );
-      });
+  // set data retreived from API
+  setGlobalData(): void {
+    this.globalCases.totalDeath = this.formatNumber(
+      this.data.Global.TotalDeaths
+    );
+    this.globalCases.totalRecovered = this.formatNumber(
+      this.data.Global.TotalRecovered
+    );
+    this.globalCases.totalConfirmed = this.formatNumber(
+      this.data.Global.TotalConfirmed
+    );
+    this.globalCases.newDeath = this.formatNumber(this.data.Global.NewDeaths);
+    this.globalCases.newRecovered = this.formatNumber(
+      this.data.Global.NewRecovered
+    );
+    this.globalCases.newConfirmed = this.formatNumber(
+      this.data.Global.NewConfirmed
+    );
+    this.time = this.data.Date;
+    this.globalCases.active = this.formatNumber(
+      (
+        this.data.Global.TotalConfirmed -
+        this.data.Global.TotalRecovered -
+        this.data.Global.TotalDeaths
+      ).toString()
+    );
   }
 
+  setCountryData(element): any {
+    this.countryCases.newConfirmed = this.formatNumber(element.NewConfirmed);
+    this.countryCases.newDeath = this.formatNumber(element.NewDeaths);
+    this.countryCases.newRecovered = this.formatNumber(element.NewRecovered);
+    this.countryCases.totalConfirmed = this.formatNumber(
+      element.TotalConfirmed
+    );
+    this.countryCases.totalDeath = this.formatNumber(element.TotalDeaths);
+    this.countryCases.totalRecovered = this.formatNumber(
+      element.TotalRecovered
+    );
+    this.countryCases.active = this.formatNumber(
+      (
+        element.TotalConfirmed -
+        element.TotalDeaths -
+        element.TotalRecovered
+      ).toString()
+    );
+  }
+
+  getTopThreeByTotalCase(): void {
+    this.countries.sort(
+      (a: any, b: any) => b.TotalConfirmed - a.TotalConfirmed
+    );
+    this.topThreeCountries.first = this.countries[0].Country;
+    this.topThreeCountries.second = this.countries[1].Country;
+    this.topThreeCountries.third = this.countries[2].Country;
+    this.topThreeCountries.firstCases = this.formatNumber(
+      this.countries[0].TotalConfirmed
+    );
+    this.topThreeCountries.secondCases = this.formatNumber(
+      this.countries[1].TotalConfirmed
+    );
+    this.topThreeCountries.thirdCases = this.formatNumber(
+      this.countries[2].TotalConfirmed
+    );
+    // console.log(this.countries);
+  }
+
+  getTopThreeByTotalDeaths(): void {
+    this.countries.sort((a: any, b: any) => b.TotalDeaths - a.TotalDeaths);
+    this.topThreeCountries.first = this.countries[0].Country;
+    this.topThreeCountries.second = this.countries[1].Country;
+    this.topThreeCountries.third = this.countries[2].Country;
+    this.topThreeCountries.firstCases = this.formatNumber(
+      this.countries[0].TotalDeaths
+    );
+    this.topThreeCountries.secondCases = this.formatNumber(
+      this.countries[1].TotalDeaths
+    );
+    this.topThreeCountries.thirdCases = this.formatNumber(
+      this.countries[2].TotalDeaths
+    );
+    // console.log(this.countries);
+  }
+
+  getTopThreeByTotalRecoveries(): void {
+    this.countries.sort(
+      (a: any, b: any) => b.TotalRecovered - a.TotalRecovered
+    );
+    this.topThreeCountries.first = this.countries[0].Country;
+    this.topThreeCountries.second = this.countries[1].Country;
+    this.topThreeCountries.third = this.countries[2].Country;
+    this.topThreeCountries.firstCases = this.formatNumber(
+      this.countries[0].TotalRecovered
+    );
+    this.topThreeCountries.secondCases = this.formatNumber(
+      this.countries[1].TotalRecovered
+    );
+    this.topThreeCountries.thirdCases = this.formatNumber(
+      this.countries[2].TotalRecovered
+    );
+    // console.log(this.countries);
+  }
+
+  getTopThreeByTotalActiveCase(): void {
+    this.countries = this.countries.sort(
+      (a: any, b: any) =>
+        b.TotalConfirmed -
+        b.TotalDeaths -
+        b.TotalRecovered -
+        (a.TotalConfirmed - a.TotalDeaths - a.TotalRecovered)
+    );
+    this.topThreeCountries.first = this.countries[0].Country;
+    this.topThreeCountries.second = this.countries[1].Country;
+    this.topThreeCountries.third = this.countries[2].Country;
+    this.topThreeCountries.firstCases = this.formatNumber(
+      (
+        this.countries[0].TotalConfirmed -
+        this.countries[0].TotalRecovered -
+        this.countries[0].TotalDeaths
+      ).toString()
+    );
+    this.topThreeCountries.secondCases = this.formatNumber(
+      (
+        this.countries[1].TotalConfirmed -
+        this.countries[1].TotalRecovered -
+        this.countries[1].TotalDeath
+      ).toString()
+    );
+    this.topThreeCountries.thirdCases = this.formatNumber(
+      (
+        this.countries[2].TotalConfirmed -
+        this.countries[2].TotalRecovered -
+        this.countries[2].TotalDeath
+      ).toString()
+    );
+    // console.log(this.countries);
+  }
+
+  // add commas to numbers; 123456 -> 123,456
   formatNumber(count: string): string {
     const nStr = count + '';
     const x = nStr.split('.');
@@ -93,6 +203,52 @@ export class DetailsComponent implements AfterViewInit, OnInit {
     return x1 + x2;
   }
 
+  getColor(id): string {
+    if (id === this.activeFilter) {
+      return 'coral';
+    }
+    return 'transparent';
+  }
+
+  changeFilter(id: string): void {
+    this.activeFilter = id;
+    if (id === 'death') {
+      this.getTopThreeByTotalDeaths();
+    } else if (id === 'active') {
+      this.getTopThreeByTotalActiveCase();
+    } else if (id === 'recovery') {
+      this.getTopThreeByTotalRecoveries();
+    } else if (id === 'total') {
+      this.getTopThreeByTotalCase();
+    }
+    this.appRef.tick();
+  }
+
+  hideCountryStatus(): void {
+    this.clicked = false;
+    this.appRef.tick();
+  }
+
+  //
+  //
+  //
+
+  // get covid data
+  ngOnInit(): any {
+    this.requestSerice
+      .sendRequest('https://api.covid19api.com/summary')
+      .subscribe((data: any) => {
+        this.data = data;
+        this.countries = this.data.Countries;
+        this.setGlobalData();
+        // this.getTopThreeByTotalActiveCase();
+        this.getTopThreeByTotalDeaths();
+        // this.getTopThreeByTotalCase();
+        // this.getTopThreeByTotalRecoveries();
+      });
+  }
+
+  // create map
   ngAfterViewInit(): void {
     // Chart code goes in here
     this.browserOnly(() => {
@@ -112,7 +268,12 @@ export class DetailsComponent implements AfterViewInit, OnInit {
       chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color(
         '#212327'
       );
-      chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 1;
+      chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0;
+      worldSeries.tooltip.getFillFromObject = false;
+      worldSeries.tooltip.background.fill = am4core.color('#274555');
+      worldSeries.tooltip.background.opacity = 0.99;
+      worldSeries.tooltip.background.stroke = am4core.color('#fcbe32');
+      worldSeries.tooltip.background.strokeWidth = 2;
 
       worldSeries.exclude = ['AQ'];
       worldSeries.useGeodata = true;
@@ -129,8 +290,9 @@ export class DetailsComponent implements AfterViewInit, OnInit {
       worldSeries.mapPolygons.template.adapter.add(
         'tooltipText',
         (text, target: any): any => {
-          let tooltip;
-          this.data.Countries.forEach((element: any) => {
+          let tooltip = target.dataItem.dataContext.name;
+          let element;
+          for (element of this.data.Countries) {
             if (element.Country.includes(target.dataItem.dataContext.name)) {
               const active = (
                 parseInt(element.TotalConfirmed, 10) -
@@ -138,18 +300,18 @@ export class DetailsComponent implements AfterViewInit, OnInit {
                 parseInt(element.TotalRecovered, 10)
               ).toString();
               tooltip =
-                `[bold]` +
+                `[bold font-size: 20px]` +
                 element.Country +
                 `[/]` +
                 '\n\nActive cases: ' +
                 this.formatNumber(active) +
-                '\nNew Confirmed Cases: ' +
+                '\n\nNew Confirmed Cases: ' +
                 element.NewConfirmed +
                 '\nNew Deaths: ' +
                 this.formatNumber(element.NewDeaths) +
                 '\nNew Recovered: ' +
                 this.formatNumber(element.NewRecovered) +
-                '\nTotal Confirmed Cases: ' +
+                '\n\nTotal Confirmed Cases: ' +
                 this.formatNumber(element.TotalConfirmed) +
                 '\nTotal Deaths: ' +
                 this.formatNumber(element.TotalDeaths) +
@@ -158,44 +320,23 @@ export class DetailsComponent implements AfterViewInit, OnInit {
               this.appRef.tick();
               return tooltip;
             }
-          });
+          }
           return tooltip;
         }
       );
 
       // Set up click events
       polygonTemplate.events.on('hit', (ev: any) => {
-        // console.log(ev);
+        let element;
         this.country = ev.target.dataItem.dataContext.name;
-        this.data.Countries.forEach((element) => {
+        for (element of this.data.Countries) {
           if (element.Country.includes(this.country)) {
             this.clicked = true;
-            this.countryCases.newConfirmed = this.formatNumber(
-              element.NewConfirmed
-            );
-            this.countryCases.newDeath = this.formatNumber(element.NewDeaths);
-            this.countryCases.newRecovered = this.formatNumber(
-              element.NewRecovered
-            );
-            this.countryCases.totalConfirmed = this.formatNumber(
-              element.TotalConfirmed
-            );
-            this.countryCases.totalDeath = this.formatNumber(
-              element.TotalDeaths
-            );
-            this.countryCases.totalRecovered = this.formatNumber(
-              element.TotalRecovered
-            );
-            this.countryCases.active = this.formatNumber(
-              (
-                element.TotalConfirmed -
-                element.TotalDeaths -
-                element.TotalRecovered
-              ).toString()
-            );
+            this.setCountryData(element);
             this.appRef.tick();
+            break;
           }
-        });
+        }
       });
 
       // Zoom control

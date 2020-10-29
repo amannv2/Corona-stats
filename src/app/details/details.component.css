@@ -18,7 +18,7 @@
 }
 
 .gc-head {
-  margin-bottom: -2px;
+  /* margin-bottom: -2px; */
   color: aliceblue;
   text-align: center;
 }
@@ -32,15 +32,111 @@
   margin-bottom: 10px;
 }
 
-.country-stats {
-  margin-top: -10px;
-  /* font-size: 10px; */
-}
-
 .country-info {
   height: 100%;
   min-height: 75px;
   width: 33.33%;
   border-radius: 0px;
   float: left;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-around;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.btn-light {
+  border-radius: 30px;
+  outline: none;
+  border: none;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  -webkit-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
+}
+
+.btn-light:hover {
+  background-color: rgba(239, 239, 239, 0.7);
+}
+
+.btn-light:focus {
+  outline: none;
+  border: none;
+}
+
+.country-1 {
+  background-color: #1f4e5f;
+  color: #c9d6de;
+  border: none;
+}
+
+.country-2 {
+  background-color: #79a8a9;
+  color: #bdc8ce;
+  border: none;
+}
+
+.country-3 {
+  background-color: #98bbbd;
+  color: #6f7275;
+  border: none;
+}
+
+.alert-info {
+  background-color: #4ea8de80;
+  border-color: #4ea8de;
+  border-style: "solid";
+  color: #edf2f4c4;
+}
+
+.alert-danger {
+  background-color: #e76f5180;
+  border-color: #e76f51;
+  border-style: "solid";
+  color: #edf2f4c4;
+}
+
+.alert-success {
+  background-color: #2a9d8f80;
+  border-color: #2a9d8f;
+  border-style: "solid";
+  color: #edf2f4c4;
+}
+
+.alert-warning {
+  background-color: #f4a36180;
+  border-color: #f4a361;
+  border-style: "solid";
+  color: #edf2f4c4;
+}
+
+.no-border {
+  border: none;
+}
+
+.all-country-name {
+  text-align: right;
+  font-size: 125%;
+  width: 52%;
+}
+
+.all-country-count {
+  text-align: left;
+  font-size: 125%;
+}
+
+.close-btn {
+  float: right;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: rgba(243, 65, 65, 0.226);
+  z-index: 11111;
+  outline: none;
+  border: none;
+}
+
+.close-btn:hover {
+  background-color: rgba(255, 255, 255, 1);
+  color: rgba(243, 65, 65, 1);
 }
