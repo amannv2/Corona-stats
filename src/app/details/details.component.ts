@@ -116,7 +116,6 @@ export class DetailsComponent implements AfterViewInit, OnInit {
     this.topThreeCountries.thirdCases = this.formatNumber(
       this.countries[2].TotalConfirmed
     );
-    // console.log(this.countries);
   }
 
   getTopThreeByTotalDeaths(): void {
@@ -133,7 +132,6 @@ export class DetailsComponent implements AfterViewInit, OnInit {
     this.topThreeCountries.thirdCases = this.formatNumber(
       this.countries[2].TotalDeaths
     );
-    // console.log(this.countries);
   }
 
   getTopThreeByTotalRecoveries(): void {
@@ -152,17 +150,14 @@ export class DetailsComponent implements AfterViewInit, OnInit {
     this.topThreeCountries.thirdCases = this.formatNumber(
       this.countries[2].TotalRecovered
     );
-    // console.log(this.countries);
   }
 
   getTopThreeByTotalActiveCase(): void {
-    this.countries = this.countries.sort(
-      (a: any, b: any) =>
-        b.TotalConfirmed -
-        b.TotalDeaths -
-        b.TotalRecovered -
-        (a.TotalConfirmed - a.TotalDeaths - a.TotalRecovered)
-    );
+    this.countries = this.countries.sort((a: any, b: any) => {
+      const temp1 = b.TotalConfirmed - b.TotalRecovered - b.TotalDeaths;
+      const temp2 = a.TotalConfirmed - a.TotalRecovered - a.TotalDeaths;
+      return temp1 - temp2;
+    });
     this.topThreeCountries.first = this.countries[0].Country;
     this.topThreeCountries.second = this.countries[1].Country;
     this.topThreeCountries.third = this.countries[2].Country;
@@ -173,21 +168,21 @@ export class DetailsComponent implements AfterViewInit, OnInit {
         this.countries[0].TotalDeaths
       ).toString()
     );
+
     this.topThreeCountries.secondCases = this.formatNumber(
       (
         this.countries[1].TotalConfirmed -
         this.countries[1].TotalRecovered -
-        this.countries[1].TotalDeath
+        this.countries[1].TotalDeaths
       ).toString()
     );
     this.topThreeCountries.thirdCases = this.formatNumber(
       (
         this.countries[2].TotalConfirmed -
         this.countries[2].TotalRecovered -
-        this.countries[2].TotalDeath
+        this.countries[2].TotalDeaths
       ).toString()
     );
-    // console.log(this.countries);
   }
 
   // add commas to numbers; 123456 -> 123,456
@@ -241,10 +236,7 @@ export class DetailsComponent implements AfterViewInit, OnInit {
         this.data = data;
         this.countries = this.data.Countries;
         this.setGlobalData();
-        // this.getTopThreeByTotalActiveCase();
         this.getTopThreeByTotalDeaths();
-        // this.getTopThreeByTotalCase();
-        // this.getTopThreeByTotalRecoveries();
       });
   }
 
