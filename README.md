@@ -1,27 +1,35 @@
-# Covid
+# Covid-19 Tracker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.1.
+> This is a Covid-19 pandemic tracker which tracks following things:
+>
+> 1. New Recovered, Confirmed, Deaths
+> 2. Total Recovered, Confirmed, Deaths
+> 3. Active Cases
+> 4. Top 3 contries with maximum
+>    - Deaths
+>    - Recoveries
+>    - Active cases
+>    - Confirmed cases
 
-## Development server
+## Libraries & APIs used
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- [AMCHARTS](https://www.amcharts.com/) for Map
+- [API](https://documenter.getpostman.com/view/10808728/SzS8rjbc#00030720-fae3-4c72-8aea-ad01ba17adf8) for Corona stats
 
-## Code scaffolding
+## Requirements:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Node >= 14.11.0
+- Angular CLI >= 10.0.14
 
-## Build
+## How to run?
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+1. Clone the repo (https://github.com/amannv2/Corona-stats.git) / [Download](https://github.com/amannv2/Corona-stats/archive/master.zip) zip and extract
+2. Open terminal in the directory and run following commands:
+   - `npm install` | installs dependencies
+   - `ng s -o` | opens up the app in the browser
 
-## Running unit tests
+## Screenshots
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+![Picture 1](./src/assets/1.png)
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+![Picture 2](./src/assets/2.png)
