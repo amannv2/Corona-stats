@@ -86,7 +86,7 @@
 }
 
 .alert-info {
-  background-color: #4ea8de80;
+  background-color: #4ea7debb;
   border-color: #4ea8de;
   border-style: "solid";
   color: #edf2f4c4;
@@ -179,7 +179,7 @@ loading animation
   position: relative;
   background: #fff;
   box-sizing: border-box;
-  animation: shadowExpandX 2s linear infinite alternate;
+  animation: shadowExpandX 1s linear infinite alternate;
 }
 
 @keyframes shadowExpandX {

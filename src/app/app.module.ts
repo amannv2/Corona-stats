@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DetailsComponent } from './details/details.component';
 import { ErrorComponent } from './error/error.component';
 import { RequestService } from './request.service';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -17,7 +18,10 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [AppComponent, DetailsComponent, ErrorComponent],
   imports: [BrowserModule, HttpClientModule, RouterModule.forRoot(appRoutes)],
-  providers: [RequestService],
+  providers: [
+    RequestService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
