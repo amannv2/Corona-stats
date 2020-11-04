@@ -27,3 +27,7 @@ jobs:
       # build project using docker
       - name: docker build
         run: docker build -t amannv2/corona-stats:latest .
+      
+      # docker push
+      - name: docker push
+        run: docker push amannv2/corona-stats:latest
