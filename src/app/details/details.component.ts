@@ -19,6 +19,9 @@ import { Cases } from './cases.model';
 import { TopCountries } from './topCountries.model';
 import { RequestService } from '../request.service';
 
+let chart: am4maps.MapChart;
+let worldSeries;
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -249,7 +252,7 @@ export class DetailsComponent implements AfterViewInit, OnInit {
       am4core.useTheme(am4themes_animated);
 
       // Create map instance
-      const chart = am4core.create('chartdiv', am4maps.MapChart);
+      chart = am4core.create('chartdiv', am4maps.MapChart);
 
       // Set map definition
       chart.geodata = am4geodata_worldLow;
@@ -258,7 +261,7 @@ export class DetailsComponent implements AfterViewInit, OnInit {
       chart.projection = new am4maps.projections.Miller();
 
       // Series for World map
-      const worldSeries = chart.series.push(new am4maps.MapPolygonSeries());
+      worldSeries = chart.series.push(new am4maps.MapPolygonSeries());
       chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color(
         '#212327'
       );

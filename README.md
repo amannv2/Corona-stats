@@ -28,6 +28,17 @@
    - `npm install` | installs dependencies
    - `ng s -o` | opens up the app in the browser
 
+## Running Using Docker
+
+1. Open terminal inside repo and run following commands:
+
+   - `docker build --rm -t amannv2/corona-stats:latest .`
+   - `docker run --rm -d -p 90:80/tcp amannv2/corona-stats:latest`
+
+   > The ‘–rm’ flag is used to automatically clean up (remove) the container once it’s stopped. The ‘-d’ flag Is used to start the container in detached mode. Finally, we will connect port 90 of the host system to TCP traffic on port 80 within the image. Port 80 is the default port used by Nginx.
+
+2. Open browser and navigate to http://localhost:90
+
 ## Screenshots
 
 ![Picture 1](./src/assets/1.png)
